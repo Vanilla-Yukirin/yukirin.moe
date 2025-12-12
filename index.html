@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla Yukirin | Home</title>
+    <link rel="icon" href="https://vanilla-picture-with-picgo.oss-cn-shenzhen.aliyuncs.com/common/Noir-transparent-small.png" type="image/x-icon">
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 全局变量与重置 --- */
+        :root {
+            --primary-color: #f29ac3; /* 粉色 */
+            --accent-color: #1296db;  /* 蓝色 */
+            --text-main: #ffffff;
+            --text-sub: #eaeaea;
+            --glass-bg: rgba(20, 20, 20, 0.6); /* 深色半透明背景，突显文字 */
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            height: 100%;
+            font-family: 'Ubuntu', sans-serif;
+            overflow: hidden; /* 防止滚动 */
+        }
+
+        /* --- 背景处理 --- */
+        .bg-wrapper {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            /* 你的背景图路径 */
+            background-image: url('sources/ord2(bigjpgx4) (2560x1440)(jpg50).jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* 给背景加一层遮罩，让文字更清晰，同时不做模糊处理，保留壁纸细节 */
+        /* 如果你喜欢背景模糊，可以给这里加上 filter: blur(5px); */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.2); 
+            backdrop-filter: blur(3px); /* 轻微模糊背景，产生景深感 */
+        }
+
+        /* --- 主卡片容器 --- */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px 20px;
+            margin: 20px;
+            text-align: center;
+            
+            /* 磨砂玻璃核心代码 */
+            background: rgba(30, 30, 30, 0.45); /* 深色磨砂 */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            
+            /* 进场动画 */
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* --- 头像区域 --- */
+        .avatar-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease;
+        }
+
+        .avatar:hover {
+            transform: rotate(360deg);
+        }
+
+        /* --- 文字排版 --- */
+        h1 {
+            color: var(--text-main);
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .tag-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- 分割线 --- */
+        .divider {
+            height: 2px;
+            width: 80%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+            margin: 0 auto 30px auto;
+        }
+
+        /* --- 按钮组 (Grid布局) --- */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3列布局 */
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        /* 按钮样式 */
+        .btn-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-link i {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-link span {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-weight: bold;
+        }
+
+        /* 悬停效果 - 针对不同类型的按钮 */
+        .btn-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 独立颜色控制 */
+        .btn-link:hover i { transform: scale(1.2); }
+        .btn-link.blog:hover i { color: #ff7eb3; } /* 博客粉 */
+        .btn-link.cnblog:hover i { color: #1296db; } /* 博客园蓝 */
+        .btn-link.github:hover i { color: #f0f0f0; } /* Github白 */
+        .btn-link.about:hover i { color: #7bb32e; } /* 微信绿 */
+        .btn-link.friends:hover i { color: #ffc107; } /* 友链黄 */
+        .btn-link.tools:hover i { color: #a0a0a0; } /* 工具灰 */
+
+        /* --- 页脚 --- */
+        .footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- 动画关键帧 --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 移动端适配 --- */
+        @media (max-width: 480px) {
+            .links-grid {
+                grid-template-columns: repeat(2, 1fr); /* 手机上改为2列 */
+            }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-wrapper">
+        <div class="overlay"></div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            
+            <div class="avatar-box">
+                <img src="https://vanilla-picture-with-picgo.oss-cn-shenzhen.aliyuncs.com/common/Noir(512px).png" alt="Vanilla_Yukirin" class="avatar">
+            </div>
+
+            <h1>Vanilla Yukirin</h1>
+            <div class="tags">
+                <span class="tag-item">AFOIer</span>
+                <span class="tag-item">ACMer</span>
+                <span class="tag-item">MCMer</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="links-grid">
+                <a href="http://vanilla-chan.cn/blog/" class="btn-link blog" target="_blank">
+                    <i class="ri-quill-pen-line"></i>
+                    <span>Blog</span>
+                </a>
+
+                <a href="https://www.cnblogs.com/Vanilla-chan" class="btn-link cnblog" target="_blank">
+                    <i class="ri-code-box-line"></i>
+                    <span>CNBlog</span>
+                </a>
+
+                <a href="https://github.com/Vanilla-Yukirin" class="btn-link github" target="_blank">
+                    <i class="ri-github-line"></i>
+                    <span>Github</span>
+                </a>
+
+                <a href="http://vanilla-chan.cn/blog/about/" class="btn-link about" target="_blank">
+                    <i class="ri-wechat-line"></i> <span>About Me</span>
+                </a>
+
+                <a href="http://vanilla-chan.cn/blog/links/" class="btn-link friends" target="_blank">
+                    <i class="ri-links-line"></i>
+                    <span>Friends</span>
+                </a>
+
+                <a href="http://vanilla-chan.cn/blog/tools/" class="btn-link tools" target="_blank">
+                    <i class="ri-tools-line"></i>
+                    <span>Tools</span>
+                </a>
+            </div>
+
+            <div class="footer">
+                &copy; 2025 Vanilla Yukirin. All Rights Reserved.
+            </div>
+
+        </div>
+    </div>
+
+    <script defer src="https://was.arisumika.top/script.js" data-website-id="f0585594-f77e-4135-acc8-a37f4ceb013b"></script>
+</body>
+</html>
