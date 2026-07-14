@@ -18,6 +18,7 @@
       --coral-pale: #f2c0b6;
       --pink: #e8adb5;
       --pink-pale: #f4dfe0;
+      --pink-deep: #d98fa0;
       --ice: #8eb3c2;
       --ice-pale: #dce9ec;
       --yellow: #e6c878;
@@ -51,8 +52,10 @@
       background: var(--paper-2);
     }
     .site-mark { display: flex; align-items: center; gap: 10px; }
-    .mark-disc { display: grid; place-items: center; width: 35px; height: 35px; border: 1px solid var(--ink); border-radius: 50%; background: var(--pink); font: 500 16px var(--serif); box-shadow: 2px 2px 0 var(--ice-pale); }
-    .site-mark strong { display: block; font-size: 12px; letter-spacing: .14em; }
+    /* flex: none + aspect-ratio 防止被文字挤压成椭圆 */
+    .mark-disc { flex: none; overflow: hidden; width: 35px; height: 35px; aspect-ratio: 1; border: 1px solid var(--ink); border-radius: 50%; background: var(--pink); box-shadow: 2px 2px 0 var(--ice-pale); }
+    .mark-disc img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .site-mark strong { display: block; font-size: 11px; letter-spacing: .06em; white-space: nowrap; }
     .site-mark small { display: block; margin-top: 3px; color: var(--muted); font: 9px var(--mono); letter-spacing: .04em; }
 
     .site-nav { display: grid; gap: 7px; margin-top: clamp(54px, 10vh, 130px); }
@@ -89,7 +92,7 @@
       scroll-snap-stop: always;
     }
     .page-topline { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
-    .page-number { color: var(--coral); font: 12px var(--mono); }
+    .page-number { color: var(--coral); font: 12px var(--mono); white-space: nowrap; }
     .page-number span { color: var(--muted); }
     .page-title { margin: 0; font-size: clamp(29px, 4.2vw, 64px); line-height: .93; letter-spacing: -.065em; text-align: center; }
     .page-update { justify-self: end; text-align: right; }
@@ -152,6 +155,30 @@
     .link-tile strong { display: block; margin-top: 10px; font-size: 14px; letter-spacing: -.02em; }
     .link-tile small { display: block; margin-top: 3px; color: var(--muted); font: 8px var(--mono); }
 
+    /* About */
+    .about-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(190px, .55fr) minmax(390px, 1.45fr); gap: 35px; max-width: 1120px; margin: 34px auto 0; }
+    .about-side { padding-top: 22px; }
+    .about-side h2 { max-width: 270px; margin: 13px 0 15px; font: 400 clamp(28px, 4vw, 52px)/.95 var(--serif); letter-spacing: -.05em; }
+    .about-side p { max-width: 250px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .about-sheet { position: relative; margin-top: 25px; padding: 26px 30px 22px; border: 1px solid var(--ink); background: var(--paper); box-shadow: 8px 8px 0 var(--pink-pale); }
+    /* 索引标签：像文件夹一样从纸张上沿伸出 */
+    .index-tab { position: absolute; top: -24px; left: 24px; display: grid; place-items: center; height: 24px; padding: 0 14px; border: 1px solid var(--ink); border-bottom: 0; background: var(--pink-pale); color: var(--ink); font: 9px var(--mono); letter-spacing: .1em; }
+    .index-tab-2 { left: 112px; background: var(--ice-pale); }
+    .about-prose h3 { margin: 0 0 10px; font: 400 21px var(--serif); letter-spacing: -.02em; }
+    .about-prose p { margin: 0 0 13px; color: var(--muted); font-size: 12.5px; line-height: 1.9; }
+    .about-prose ul { margin: 0 0 13px; padding-left: 18px; color: var(--muted); font-size: 12.5px; line-height: 1.9; }
+    .about-prose li::marker { color: var(--coral); }
+    /* 荧光笔划线 */
+    .hl-marker { padding: 0 2px; background: linear-gradient(transparent 58%, rgba(230, 200, 120, .55) 58%, rgba(230, 200, 120, .55) 94%, transparent 94%); }
+    .hl-marker-pink { padding: 0 2px; background: linear-gradient(transparent 58%, rgba(232, 173, 181, .5) 58%, rgba(232, 173, 181, .5) 94%, transparent 94%); }
+    /* 票券打孔分隔线：两端半圆缺口 + 虚线撕缝 */
+    .ticket-divider { position: relative; height: 0; margin: 22px -30px; border-top: 2px dashed var(--line); }
+    .ticket-divider::before, .ticket-divider::after { position: absolute; top: -9px; width: 16px; height: 16px; border: 1px solid var(--ink); border-radius: 50%; background: var(--bg); content: ""; }
+    .ticket-divider::before { left: -9px; }
+    .ticket-divider::after { right: -9px; }
+    .about-caption { display: block; margin-top: 16px; color: var(--muted); font: 9px var(--mono); letter-spacing: .06em; }
+    .page-about .page-number, .page-about .micro-label { color: var(--pink-deep); }
+
     /* Notes */
     .notes-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(190px, .55fr) minmax(390px, 1.45fr); gap: 35px; max-width: 1120px; margin: 34px auto 0; }
     .notes-side { padding-top: 22px; }
@@ -173,7 +200,9 @@
 
     /* Links */
     .links-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(190px, .55fr) minmax(400px, 1.45fr); gap: 35px; max-width: 1120px; margin: 34px auto 0; }
-    .links-intro { padding-top: 22px; }
+    .links-intro { position: relative; padding-top: 22px; }
+    /* 邮戳：LINKS 页专属 */
+    .postmark { position: absolute; top: 0; right: 24px; z-index: 1; display: grid; place-items: center; width: 76px; height: 76px; border: 2px dashed var(--ink); border-radius: 50%; color: var(--ink); font: 7px/1.6 var(--mono); letter-spacing: .1em; text-align: center; transform: rotate(-12deg); opacity: .5; pointer-events: none; }
     .links-intro h2 { margin: 13px 0 15px; font-size: clamp(30px, 4vw, 56px); line-height: .9; letter-spacing: -.06em; }
     .links-intro p { max-width: 260px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
     .route-note { margin-top: 34px; color: var(--muted); font: 9px/1.65 var(--mono); }
@@ -204,6 +233,13 @@
     .page-links .page-footer button { box-shadow: 3px 3px 0 var(--coral-pale); }
     .page-links .page-footer button:hover { box-shadow: 1px 1px 0 var(--coral-pale); }
 
+    /* 中等宽度：侧栏变窄，单行站名同步收缩，避免溢出 */
+    @media (max-width: 1360px) {
+      .site-rail { padding-inline: 16px; }
+      .site-mark strong { font-size: 9.5px; letter-spacing: .05em; }
+      .mark-disc { width: 31px; height: 31px; }
+    }
+
     @media (max-width: 880px) {
       .site-shell { grid-template-columns: 128px 1fr; }
       .site-rail { padding-inline: 15px; }
@@ -215,10 +251,11 @@
       .fact-column .fact { padding-right: 12px; }
       .fact-column .fact:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--line); }
       .link-matrix { grid-template-columns: repeat(3, 1fr); }
-      .notes-layout, .links-layout { grid-template-columns: 1fr; gap: 18px; }
-      .notes-side, .links-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; padding-top: 0; }
-      .notes-side h2, .links-intro h2 { margin-top: 0; }
+      .notes-layout, .links-layout, .about-layout { grid-template-columns: 1fr; gap: 18px; }
+      .notes-side, .links-intro, .about-side { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; padding-top: 0; }
+      .notes-side h2, .links-intro h2, .about-side h2 { margin-top: 0; }
       .notes-image, .route-note { margin-top: 0; }
+      .about-sheet { margin-top: 0; }
     }
 
     @media (max-width: 640px) {
@@ -236,7 +273,7 @@
       .rail-status, .rail-tip { display: none; }
       .page-scroll { height: calc(100svh - 73px); }
       .page { min-height: calc(100svh - 73px); padding: 25px 16px 45px; }
-      .page-topline { grid-template-columns: 42px 1fr auto; gap: 8px; padding-bottom: 10px; }
+      .page-topline { grid-template-columns: auto 1fr auto; gap: 8px; padding-bottom: 10px; }
       .page-title { font-size: 27px; }
       .page-update span, .page-update small { font-size: 7px; }
       .page-update strong { font-size: 9px; }
@@ -260,9 +297,17 @@
       .link-tile { min-height: 60px; padding: 10px; box-shadow: 3px 3px 0 var(--tile-color, var(--pink)); }
       .link-tile strong { margin-top: 7px; font-size: 12px; }
       .link-tile small { font-size: 7px; }
-      .notes-side, .links-intro { display: block; }
-      .notes-side h2, .links-intro h2 { font-size: 42px; margin: 7px 0 11px; }
-      .notes-side p, .links-intro p { font-size: 11px; line-height: 1.65; }
+      .notes-side, .links-intro, .about-side { display: block; }
+      .notes-side h2, .links-intro h2, .about-side h2 { font-size: 42px; margin: 7px 0 11px; }
+      .notes-side p, .links-intro p, .about-side p { font-size: 11px; line-height: 1.65; }
+      .about-layout { gap: 16px; }
+      .about-sheet { margin-top: 14px; padding: 18px 16px 14px; }
+      .index-tab { top: -21px; height: 21px; padding: 0 10px; font-size: 8px; }
+      .index-tab-2 { left: 96px; }
+      .ticket-divider { margin: 16px -16px; }
+      .about-prose p, .about-prose ul { font-size: 11px; line-height: 1.75; }
+      .about-prose h3 { font-size: 17px; }
+      .postmark { top: -4px; right: 4px; width: 62px; height: 62px; font-size: 6px; }
       .notes-image { height: 105px; margin-top: 16px; box-shadow: 4px 4px 0 var(--pink-pale); }
       .note-row { grid-template-columns: 30px minmax(0, 1fr); gap: 8px; min-height: 0; padding: 13px 0; }
       .note-row h3 { font-size: 13px; }
@@ -289,11 +334,12 @@
 <body>
   <div class="site-shell">
     <aside class="site-rail" aria-label="站点导航">
-      <a class="site-mark" href="#page-home" data-page="0"><span class="mark-disc">V</span><span><strong>VANILLA</strong><small>YUKIRIN / 2026</small></span></a>
+      <a class="site-mark" href="#page-home" data-page="0"><span class="mark-disc"><img src="sources/Noir(512px).png" alt=""></span><span><strong>VANILLA YUKIRIN</strong><small>2026</small></span></a>
       <nav class="site-nav">
         <a href="#page-home" data-page="0" aria-current="page"><span>01</span><span>HOME</span></a>
-        <a href="#page-notes" data-page="1"><span>02</span><span>NOTES</span></a>
-        <a href="#page-links" data-page="2"><span>03</span><span>LINKS</span></a>
+        <a href="#page-about" data-page="1"><span>02</span><span>ABOUT</span></a>
+        <a href="#page-notes" data-page="2"><span>03</span><span>NOTES</span></a>
+        <a href="#page-links" data-page="3"><span>04</span><span>LINKS</span></a>
       </nav>
       <div class="rail-status"><span class="rail-label">CURRENT STATUS</span><strong data-status-label>MAKING THINGS</strong><small data-status-source>STATUS / DEFAULT</small></div>
       <div class="rail-tip">SCROLL / ARROW KEYS<br>TO TURN THE PAGE</div>
@@ -301,7 +347,7 @@
 
     <main class="page-scroll" id="page-scroll">
       <section class="page page-home" id="page-home" aria-labelledby="home-title">
-        <div class="page-topline"><div class="page-number">01 <span>/ 03</span></div><h1 class="page-title" id="home-title">PERSONAL PROFILE</h1><div class="page-update"><span>LAST UPDATE</span><strong data-last-update>2025—12—13</strong><small data-update-source>COMMIT / PLACEHOLDER</small></div></div>
+        <div class="page-topline"><div class="page-number">01 <span>/ 04</span></div><h1 class="page-title" id="home-title">PERSONAL PROFILE</h1><div class="page-update"><span>LAST UPDATE</span><strong data-last-update>2025—12—13</strong><small data-update-source>COMMIT / PLACEHOLDER</small></div></div>
         <div class="profile-sheet">
           <div class="profile-column portrait-column">
             <div class="portrait-frame">
@@ -337,13 +383,41 @@
           <a class="link-tile" href="https://vanilla-chan.cn/blog/links/" target="_blank" rel="noopener"><span>05 / VISIT</span><strong>FRIENDS</strong><small>people & places ↗</small></a>
           <a class="link-tile" href="https://vanilla-chan.cn/blog/tools/" target="_blank" rel="noopener"><span>06 / USE</span><strong>TOOLS</strong><small>small utilities ↗</small></a>
         </div>
-        <div class="page-footer"><span>VANILLA / PERSONAL PROFILE</span><button type="button" data-next>NOTES ↓</button></div>
+        <div class="page-footer"><span>VANILLA / PERSONAL PROFILE</span><button type="button" data-next>ABOUT ↓</button></div>
+      </section>
+
+      <section class="page page-about" id="page-about" aria-labelledby="about-title">
+        <div class="page-topline"><div class="page-number">02 <span>/ 04</span></div><h1 class="page-title" id="about-title">ABOUT ME</h1></div>
+        <div class="about-layout">
+          <div class="about-side">
+            <div class="micro-label">ABOUT / SELF INTRODUCTION</div>
+            <h2>Nice to meet you.</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+          </div>
+          <div class="about-sheet">
+            <span class="index-tab">PROFILE</span>
+            <span class="index-tab index-tab-2">2026</span>
+            <div class="about-prose" id="about-content">
+              <h3>Lorem ipsum dolor sit amet</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <span class="hl-marker">quis nostrud exercitation ullamco</span> laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, <span class="hl-marker-pink">excepteur sint occaecat</span> cupidatat non proident.</p>
+              <div class="ticket-divider" aria-hidden="true"></div>
+              <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                <li>Sed do eiusmod tempor incididunt ut labore et dolore.</li>
+                <li>Ut enim ad minim veniam, quis nostrud exercitation.</li>
+              </ul>
+              <span class="about-caption">CONTENT / LOREM PLACEHOLDER — 正文将由 Markdown 替换</span>
+            </div>
+          </div>
+        </div>
+        <div class="page-footer"><button type="button" data-prev>↑ HOME</button><span>VANILLA / ABOUT ME</span><button type="button" data-next>NOTES ↓</button></div>
       </section>
 
       <section class="page page-notes" id="page-notes" aria-labelledby="notes-title">
-        <div class="page-topline"><div class="page-number">02 <span>/ 03</span></div><h1 class="page-title" id="notes-title">FIELD NOTES</h1></div>
+        <div class="page-topline"><div class="page-number">03 <span>/ 04</span></div><h1 class="page-title" id="notes-title">FIELD NOTES</h1></div>
         <div class="notes-layout">
-          <div class="notes-side"><div class="micro-label">NOTES / SELECTED RECORDS</div><h2>Things I wanted to keep.</h2><p>一些技术，一些学习记录，也有每个月留下来的生活切片。</p><div class="notes-image"><img src="sources/ord2(bigjpgx4)%20(2560x1440)(jpg50).jpg" alt="二次元场景图"></div></div>
+          <div class="notes-side"><div class="micro-label">NOTES / SELECTED RECORDS</div><h2>Things I want to share.</h2><p>技术分享 / 学习笔记 / 生活切片 / 信笔由缰</p><div class="notes-image"><img src="sources/ord2(bigjpgx4)%20(2560x1440)(jpg50).jpg" alt="二次元场景图"></div></div>
           <div class="notes-list">
             <a class="note-row" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><div class="note-number">01</div><div><h3>202604 月度小结</h3><p>入职、竞赛、课程和一点坚持下来的记录。</p></div><div class="note-meta"><strong>2026—05—19</strong>JOURNAL / 11 MIN</div></a>
             <a class="note-row" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><div class="note-number">02</div><div><h3>关于大数据专业课程安排的若干建议</h3><p>蒙导员垂询，余与 wzx 畅谈专业课程之利弊。</p></div><div class="note-meta"><strong>2026—04—15</strong>STUDY / 10 MIN</div></a>
@@ -352,13 +426,13 @@
           </div>
         </div>
         <div class="notes-footer"><span data-notes-index>INDEX / 04 SELECTED</span><a href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener">OPEN BLOG ↗</a></div>
-        <div class="page-footer"><button type="button" data-prev>↑ HOME</button><span>VANILLA / FIELD NOTES</span><button type="button" data-next>LINKS ↓</button></div>
+        <div class="page-footer"><button type="button" data-prev>↑ ABOUT</button><span>VANILLA / FIELD NOTES</span><button type="button" data-next>LINKS ↓</button></div>
       </section>
 
       <section class="page page-links" id="page-links" aria-labelledby="links-title">
-        <div class="page-topline"><div class="page-number">03 <span>/ 03</span></div><h1 class="page-title" id="links-title">LINKS & ROUTES</h1></div>
+        <div class="page-topline"><div class="page-number">04 <span>/ 04</span></div><h1 class="page-title" id="links-title">LINKS & ROUTES</h1></div>
         <div class="links-layout">
-          <div class="links-intro"><div class="micro-label">LINKS / ROUTE MAP</div><h2>Where to find me.</h2><p>博客、代码、朋友和一些我自己做的小工具。</p><div class="route-note"><strong>STATUS CHANNEL</strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</div></div>
+          <div class="links-intro"><span class="postmark" aria-hidden="true">YUKIRIN.MOE<br>—<br>ROUTES / 2026</span><div class="micro-label">LINKS / ROUTE MAP</div><h2>Where to find me.</h2><p>博客、代码、朋友和一些我自己做的小工具。</p><div class="route-note"><strong>STATUS CHANNEL</strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</div></div>
           <div class="link-wall">
             <a class="route-tile" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><b>ROUTE / 01</b><h3>Blog</h3><p>journal & technical notes ↗</p></a>
             <a class="route-tile" href="https://www.cnblogs.com/Vanilla-chan" target="_blank" rel="noopener"><b>ROUTE / 02</b><h3>CNBlog</h3><p>another writing shelf ↗</p></a>
