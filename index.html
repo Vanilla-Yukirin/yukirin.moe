@@ -45,9 +45,10 @@
 
     .site-shell { display: grid; grid-template-columns: clamp(154px, 14vw, 210px) 1fr; height: 100svh; }
     .site-rail {
+      --rail-pad: clamp(18px, 2.6vw, 36px);
       display: flex;
       flex-direction: column;
-      padding: clamp(24px, 4vw, 54px) clamp(18px, 2.6vw, 36px) 24px;
+      padding: clamp(24px, 4vw, 54px) var(--rail-pad) 24px;
       border-right: 1px solid var(--ink);
       background: var(--paper-2);
     }
@@ -71,7 +72,8 @@
       letter-spacing: .08em;
       transition: color .2s, transform .2s;
     }
-    .site-nav a::before { position: absolute; left: -36px; width: 3px; height: 0; background: var(--coral); content: ""; transition: height .2s; }
+    /* 当前页指示条：偏移量与侧栏内边距绑定，任何宽度都贴住侧栏左缘 */
+    .site-nav a::before { position: absolute; left: calc(-1 * var(--rail-pad)); width: 3px; height: 0; background: var(--coral); content: ""; transition: height .2s; }
     .site-nav a span:first-child { color: var(--coral); }
     .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--ink); transform: translateX(3px); }
     .site-nav a[aria-current="page"]::before { height: 27px; }
@@ -233,17 +235,18 @@
     .page-links .page-footer button { box-shadow: 3px 3px 0 var(--coral-pale); }
     .page-links .page-footer button:hover { box-shadow: 1px 1px 0 var(--coral-pale); }
 
-    /* 中等宽度：侧栏变窄，单行站名同步收缩，避免溢出 */
+    /* 中等宽度：侧栏变窄，站名改为头像在上、名字在下（名字本身保持单行） */
     @media (max-width: 1360px) {
-      .site-rail { padding-inline: 16px; }
-      .site-mark strong { font-size: 9.5px; letter-spacing: .05em; }
+      .site-rail { --rail-pad: 16px; }
+      .site-mark { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .site-mark strong { font-size: 10px; letter-spacing: .04em; }
       .mark-disc { width: 31px; height: 31px; }
     }
 
     @media (max-width: 880px) {
       .site-shell { grid-template-columns: 128px 1fr; }
-      .site-rail { padding-inline: 15px; }
-      .site-nav a::before { left: -15px; }
+      .site-rail { --rail-pad: 15px; }
+      .site-mark strong { font-size: 9px; }
       .profile-sheet { grid-template-columns: 200px minmax(0, 1fr); }
       .fact-column { grid-column: 1 / -1; border-top: 1px solid var(--line); }
       .profile-column + .profile-column { border-left: 0; }
@@ -262,8 +265,8 @@
       body { overflow: hidden; }
       .site-shell { display: block; height: 100svh; }
       .site-rail { position: relative; z-index: 5; display: flex; flex-direction: row; align-items: center; gap: 13px; min-height: 73px; padding: 12px 15px; border-right: 0; border-bottom: 1px solid var(--ink); }
-      .site-mark { flex: 0 0 auto; }
-      .mark-disc { width: 30px; height: 30px; font-size: 14px; }
+      .site-mark { flex: 0 0 auto; flex-direction: row; align-items: center; gap: 8px; }
+      .mark-disc { width: 30px; height: 30px; }
       .site-mark strong { font-size: 10px; }
       .site-mark small { font-size: 8px; }
       .site-nav { display: flex; flex: 1; justify-content: flex-end; gap: 5px; margin: 0; }
