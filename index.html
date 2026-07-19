@@ -49,8 +49,8 @@
     /* 纸张噪点：极淡的颗粒感覆盖全页，手账纸面质感（不拦截任何交互） */
     body::after {
       position: fixed; inset: 0; z-index: 60; pointer-events: none; content: "";
-      opacity: .55; mix-blend-mode: multiply;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.15 0 0 0 0 0.13 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: .65; mix-blend-mode: multiply;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.15 0 0 0 0 0.13 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     .site-shell { display: grid; grid-template-columns: clamp(154px, 14vw, 210px) 1fr; height: 100svh; }
@@ -95,6 +95,8 @@
     .rail-tip { margin-top: 34px; color: var(--muted); font: 9px/1.6 var(--mono); }
 
     .page-scroll { height: 100svh; overflow-y: auto; scroll-behavior: smooth; scroll-snap-type: y mandatory; scrollbar-color: var(--coral) transparent; scrollbar-width: thin; }
+    /* 内容比视口高时（竖屏/窄屏）由 JS 加 no-snap：退出整页翻页，退回自然滚动 */
+    .page-scroll.no-snap { scroll-snap-type: none; }
     .page {
       position: relative;
       min-height: 100svh;
@@ -256,6 +258,23 @@
       .site-mark { flex-direction: column; align-items: flex-start; gap: 8px; }
       .site-mark strong { font-size: 10px; letter-spacing: .04em; }
       .mark-disc { width: 31px; height: 31px; }
+    }
+
+    /* 偏窄桌面：HOME 档案纸第三栏（facts）会被挤得逐字换行，提前改两栏 + facts 通栏双列；
+       同时整体收紧纵向间距、链接矩阵单行六格，让 768px 高的视口也能整页放下 */
+    @media (max-width: 1120px) {
+      .profile-sheet { grid-template-columns: 200px minmax(0, 1fr); margin-top: 20px; }
+      .profile-column { padding: 16px 20px; }
+      .portrait-frame { height: 190px; }
+      .status-line { margin: 16px 0 14px; }
+      .fact-column { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+      .profile-column + .profile-column { border-left: 0; }
+      .fact-column .fact-list { display: grid; grid-template-columns: 1fr 1fr; }
+      .fact-column .fact { padding: 8px 12px 8px 0; }
+      .fact-column .fact:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--line); }
+      .link-matrix { grid-template-columns: repeat(6, 1fr); margin-top: 12px; }
+      .link-tile { min-height: 56px; padding: 9px 10px; }
+      .link-tile strong { margin-top: 6px; font-size: 12px; }
     }
 
     @media (max-width: 880px) {
@@ -552,6 +571,14 @@
       const navItems = [...document.querySelectorAll(".site-nav a[data-page]")];
       const pageLinks = [...document.querySelectorAll("a[data-page]")];
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // 任何一页比视口高就退出 PPT 模式：否则滚轮整页翻动会永远跳过溢出的内容
+      //（竖屏手机 HOME 页底部的链接矩阵就是这样丢的）
+      const pptEnabled = () => !stage.classList.contains("no-snap");
+      const measureSnap = () => {
+        const fits = pages.every((page) => page.offsetHeight <= stage.clientHeight + 2);
+        stage.classList.toggle("no-snap", !fits);
+        if (!fits) { animating = false; }
+      };
       let current = 0;
       let animating = false;   // 翻页动画进行中，期间滚轮/按键一律吞掉，实现 PPT 式整页翻动
       let targetTop = 0;
@@ -615,6 +642,8 @@
 
       stage.addEventListener("wheel", (event) => {
         // 全量接管滚轮：不产生任何原生滚动，只按整页翻动
+        // no-snap 模式下完全放行，交给原生滚动
+        if (!pptEnabled()) return;
         event.preventDefault();
         if (animating || performance.now() < cooldownUntil) return;
         wheelAccum += normalizeDelta(event);
@@ -627,6 +656,7 @@
       }, { passive: false });
 
       window.addEventListener("keydown", (event) => {
+        if (!pptEnabled()) return;
         if (["ArrowDown", "PageDown", " "].includes(event.key)) { event.preventDefault(); goTo(current + 1); }
         if (["ArrowUp", "PageUp"].includes(event.key)) { event.preventDefault(); goTo(current - 1); }
         if (event.key === "Home") { event.preventDefault(); goTo(0); }
@@ -644,6 +674,11 @@
       document.querySelectorAll("[data-next]").forEach((button) => button.addEventListener("click", () => goTo(current + 1, true)));
       document.querySelectorAll("[data-prev]").forEach((button) => button.addEventListener("click", () => goTo(current - 1, true)));
       document.querySelectorAll("[data-home]").forEach((button) => button.addEventListener("click", () => goTo(0, true)));
+
+      // 初始 + 尺寸变化 + 字体加载完成（字高会变）都重新测量
+      measureSnap();
+      window.addEventListener("resize", measureSnap);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureSnap);
 
       const defaultStatus = {
         label: contentAt("rail.statusLabel") || "MAKING THINGS",
@@ -727,6 +762,7 @@
             return row;
           });
           list.replaceChildren(...rows);
+          measureSnap(); // RSS 替换后列表高度可能变化，重新判定翻页模式
           const indexLabel = document.querySelector("[data-notes-index]");
           if (indexLabel) indexLabel.textContent = "FEED / LATEST " + String(rows.length).padStart(2, "0");
         })
