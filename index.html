@@ -107,6 +107,8 @@
     .page-scroll { height: 100svh; overflow-y: auto; scroll-behavior: smooth; scroll-snap-type: y mandatory; scrollbar-color: var(--coral) transparent; scrollbar-width: thin; }
     /* 内容比视口高时（竖屏/窄屏）由 JS 加 no-snap：退出整页翻页，退回自然滚动 */
     .page-scroll.no-snap { scroll-snap-type: none; }
+    /* no-snap 模式下页面会比视口高，给绝对定位的页脚预留空间，避免压住内容 */
+    .page-scroll.no-snap .page { padding-bottom: 96px; }
     .page {
       position: relative;
       min-height: 100svh;
@@ -297,7 +299,12 @@
       .fact-column .fact-list { display: grid; grid-template-columns: 1fr 1fr; }
       .fact-column .fact { padding-right: 12px; }
       .fact-column .fact:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--line); }
-      .link-matrix { grid-template-columns: repeat(3, 1fr); }
+      .link-matrix { grid-template-columns: repeat(6, 1fr); }
+      /* 高度紧张的窄窗口：状态行来源文字（侧栏已有）与矩阵小注隐藏，矩阵收成单排紧凑瓦片 */
+      .status-line small { display: none; }
+      .link-tile small { display: none; }
+      .link-tile { min-height: 0; padding: 9px 12px; }
+      .link-tile strong { margin-top: 5px; }
       .notes-layout, .links-layout, .about-layout { grid-template-columns: 1fr; gap: 18px; }
       .notes-side, .links-intro, .about-side { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; padding-top: 0; }
       /* 文字全部放左列纵向堆叠，图片/路由便签放右列跨行，避免自动摆位错位抬高侧栏 */
