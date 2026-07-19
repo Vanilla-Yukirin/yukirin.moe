@@ -170,6 +170,8 @@
     .about-prose p { margin: 0 0 13px; color: var(--muted); font-size: 12.5px; line-height: 1.9; }
     .about-prose ul { margin: 0 0 13px; padding-left: 18px; color: var(--muted); font-size: 12.5px; line-height: 1.9; }
     .about-prose li::marker { color: var(--coral); }
+    .about-prose strong { color: var(--ink); }
+    .about-prose a { color: var(--coral); text-decoration: underline; text-underline-offset: 2px; }
     /* 荧光笔划线 */
     .hl-marker { padding: 0 2px; background: linear-gradient(transparent 58%, rgba(230, 200, 120, .55) 58%, rgba(230, 200, 120, .55) 94%, transparent 94%); }
     .hl-marker-pink { padding: 0 2px; background: linear-gradient(transparent 58%, rgba(232, 173, 181, .5) 58%, rgba(232, 173, 181, .5) 94%, transparent 94%); }
@@ -337,7 +339,7 @@
 <body>
   <div class="site-shell">
     <aside class="site-rail" aria-label="站点导航">
-      <a class="site-mark" href="#page-home" data-page="0"><span class="mark-disc"><img src="sources/Noir(512px).png" alt=""></span><span><strong>VANILLA YUKIRIN</strong><small>2026</small></span></a>
+      <a class="site-mark" href="#page-home" data-page="0"><span class="mark-disc"><img src="sources/Noir(512px).png" alt=""></span><span><strong data-c="rail.siteName">VANILLA YUKIRIN</strong><small data-c="rail.siteYear">2026</small></span></a>
       <nav class="site-nav">
         <a href="#page-home" data-page="0" aria-current="page"><span>01</span><span>HOME</span></a>
         <a href="#page-about" data-page="1"><span>02</span><span>ABOUT</span></a>
@@ -345,28 +347,28 @@
         <a href="#page-links" data-page="3"><span>04</span><span>LINKS</span></a>
       </nav>
       <div class="rail-status"><span class="rail-label">CURRENT STATUS</span><strong data-status-label>MAKING THINGS</strong><small data-status-source>STATUS / DEFAULT</small></div>
-      <div class="rail-tip">SCROLL / ARROW KEYS<br>TO TURN THE PAGE</div>
+      <div class="rail-tip" data-c="rail.tip">SCROLL / ARROW KEYS<br>TO TURN THE PAGE</div>
     </aside>
 
     <main class="page-scroll" id="page-scroll">
       <section class="page page-home" id="page-home" aria-labelledby="home-title">
-        <div class="page-topline"><div class="page-number">01 <span>/ 04</span></div><h1 class="page-title" id="home-title">PERSONAL PROFILE</h1><div class="page-update"><span>LAST UPDATE</span><strong data-last-update>2025—12—13</strong><small data-update-source>COMMIT / PLACEHOLDER</small></div></div>
+        <div class="page-topline"><div class="page-number">01 <span>/ 04</span></div><h1 class="page-title" id="home-title" data-c="home.pageTitle">PERSONAL PROFILE</h1><div class="page-update"><span>LAST UPDATE</span><strong data-last-update>2025—12—13</strong><small data-update-source>COMMIT / PLACEHOLDER</small></div></div>
         <div class="profile-sheet">
           <div class="profile-column portrait-column">
             <div class="portrait-frame">
               <img src="sources/Noir(512px).png" alt="Vanilla 的角色头像">
               <span class="paperclip" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" fill="none" stroke="#d98fa0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              <span class="sheet-stamp">AFOIer<br>ACMer<br>MCMer</span>
+              <span class="sheet-stamp" data-c="home.stamp">AFOIer<br>ACMer<br>MCMer</span>
             </div>
-            <div class="portrait-caption"><strong>VANILLA / YUKIRIN</strong></div>
+            <div class="portrait-caption"><strong data-c="home.portraitCaption">VANILLA / YUKIRIN</strong></div>
           </div>
           <div class="profile-column identity-column">
-            <div class="profile-kicker">SUBJECT PROFILE / VANILLA</div>
-            <h2>Vanilla<br>Yukirin</h2>
-            <p class="profile-motto">「但 Vanilla 会努力的」</p>
+            <div class="profile-kicker" data-c="home.kicker">SUBJECT PROFILE / VANILLA</div>
+            <h2 data-c="home.name">Vanilla<br>Yukirin</h2>
+            <p class="profile-motto" data-c="home.motto">「但 Vanilla 会努力的」</p>
             <div class="status-line"><span class="status-dot" data-status-dot></span><strong data-status-label>MAKING THINGS</strong><small data-status-source>STATUS / DEFAULT</small></div>
-            <p class="profile-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <span class="profile-sign">/ KEEPING NOTES, MAKING THINGS</span>
+            <p class="profile-copy" data-c="home.copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <span class="profile-sign" data-c="home.sign">/ KEEPING NOTES, MAKING THINGS</span>
           </div>
           <div class="profile-column fact-column">
             <dl class="fact-list">
@@ -386,20 +388,20 @@
           <a class="link-tile" href="https://vanilla-chan.cn/blog/links/" target="_blank" rel="noopener"><span>05 / VISIT</span><strong>FRIENDS</strong><small>people & places ↗</small></a>
           <a class="link-tile" href="https://vanilla-chan.cn/blog/tools/" target="_blank" rel="noopener"><span>06 / USE</span><strong>TOOLS</strong><small>small utilities ↗</small></a>
         </div>
-        <div class="page-footer"><span>VANILLA / PERSONAL PROFILE</span><button type="button" data-next>ABOUT ↓</button></div>
+        <div class="page-footer"><span data-c="home.footerLabel">VANILLA / PERSONAL PROFILE</span><button type="button" data-next data-c="home.nextLabel">ABOUT ↓</button></div>
       </section>
 
       <section class="page page-about" id="page-about" aria-labelledby="about-title">
-        <div class="page-topline"><div class="page-number">02 <span>/ 04</span></div><h1 class="page-title" id="about-title">ABOUT ME</h1></div>
+        <div class="page-topline"><div class="page-number">02 <span>/ 04</span></div><h1 class="page-title" id="about-title" data-c="about.pageTitle">ABOUT ME</h1></div>
         <div class="about-layout">
           <div class="about-side">
-            <div class="micro-label">ABOUT / SELF INTRODUCTION</div>
-            <h2>Nice to meet you.</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+            <div class="micro-label" data-c="about.microLabel">ABOUT / SELF INTRODUCTION</div>
+            <h2 data-c="about.heading">Nice to meet you.</h2>
+            <p data-c="about.sideText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
           </div>
           <div class="about-sheet">
-            <span class="index-tab">PROFILE</span>
-            <span class="index-tab index-tab-2">2026</span>
+            <span class="index-tab" data-c="about.tabs.0">PROFILE</span>
+            <span class="index-tab index-tab-2" data-c="about.tabs.1">2026</span>
             <div class="about-prose" id="about-content">
               <h3>Lorem ipsum dolor sit amet</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, <span class="hl-marker">quis nostrud exercitation ullamco</span> laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -414,13 +416,13 @@
             </div>
           </div>
         </div>
-        <div class="page-footer"><button type="button" data-prev>↑ HOME</button><span>VANILLA / ABOUT ME</span><button type="button" data-next>NOTES ↓</button></div>
+        <div class="page-footer"><button type="button" data-prev data-c="about.prevLabel">↑ HOME</button><span data-c="about.footerLabel">VANILLA / ABOUT ME</span><button type="button" data-next data-c="about.nextLabel">NOTES ↓</button></div>
       </section>
 
       <section class="page page-notes" id="page-notes" aria-labelledby="notes-title">
-        <div class="page-topline"><div class="page-number">03 <span>/ 04</span></div><h1 class="page-title" id="notes-title">FIELD NOTES</h1></div>
+        <div class="page-topline"><div class="page-number">03 <span>/ 04</span></div><h1 class="page-title" id="notes-title" data-c="notes.pageTitle">FIELD NOTES</h1></div>
         <div class="notes-layout">
-          <div class="notes-side"><div class="micro-label">NOTES / SELECTED RECORDS</div><h2>Things I want to share.</h2><p>技术分享 / 学习笔记 / 生活切片 / 信笔由缰</p><div class="notes-image"><img src="sources/ord2(bigjpgx4)%20(2560x1440)(jpg50).jpg" alt="二次元场景图"></div></div>
+          <div class="notes-side"><div class="micro-label" data-c="notes.microLabel">NOTES / SELECTED RECORDS</div><h2 data-c="notes.heading">Things I want to share.</h2><p data-c="notes.sideText">技术分享 / 学习笔记 / 生活切片 / 信笔由缰</p><div class="notes-image"><img src="sources/ord2(bigjpgx4)%20(2560x1440)(jpg50).jpg" alt="二次元场景图"></div></div>
           <div class="notes-list">
             <a class="note-row" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><div class="note-number">01</div><div><h3>202604 月度小结</h3><p>入职、竞赛、课程和一点坚持下来的记录。</p></div><div class="note-meta"><strong>2026—05—19</strong>JOURNAL / 11 MIN</div></a>
             <a class="note-row" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><div class="note-number">02</div><div><h3>关于大数据专业课程安排的若干建议</h3><p>蒙导员垂询，余与 wzx 畅谈专业课程之利弊。</p></div><div class="note-meta"><strong>2026—04—15</strong>STUDY / 10 MIN</div></a>
@@ -428,14 +430,14 @@
             <a class="note-row" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><div class="note-number">04</div><div><h3>解决 Windows11 端口被随机占用的问题</h3><p>一次不太浪漫，但终于解决了的排查。</p></div><div class="note-meta"><strong>2026—03—22</strong>CODE / 6 MIN</div></a>
           </div>
         </div>
-        <div class="notes-footer"><span data-notes-index>INDEX / 04 SELECTED</span><a href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener">OPEN BLOG ↗</a></div>
-        <div class="page-footer"><button type="button" data-prev>↑ ABOUT</button><span>VANILLA / FIELD NOTES</span><button type="button" data-next>LINKS ↓</button></div>
+        <div class="notes-footer"><span data-notes-index data-c="notes.indexLabel">INDEX / 04 SELECTED</span><a href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener" data-c="notes.openBlogLabel">OPEN BLOG ↗</a></div>
+        <div class="page-footer"><button type="button" data-prev data-c="notes.prevLabel">↑ ABOUT</button><span data-c="notes.footerLabel">VANILLA / FIELD NOTES</span><button type="button" data-next data-c="notes.nextLabel">LINKS ↓</button></div>
       </section>
 
       <section class="page page-links" id="page-links" aria-labelledby="links-title">
-        <div class="page-topline"><div class="page-number">04 <span>/ 04</span></div><h1 class="page-title" id="links-title">LINKS & ROUTES</h1></div>
+        <div class="page-topline"><div class="page-number">04 <span>/ 04</span></div><h1 class="page-title" id="links-title" data-c="links.pageTitle">LINKS &amp; ROUTES</h1></div>
         <div class="links-layout">
-          <div class="links-intro"><span class="postmark" aria-hidden="true">YUKIRIN.MOE<br>—<br>ROUTES / 2026</span><div class="micro-label">LINKS / ROUTE MAP</div><h2>Where to find me.</h2><p>博客、代码、朋友和一些我自己做的小工具。</p><div class="route-note"><strong>STATUS CHANNEL</strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</div></div>
+          <div class="links-intro"><span class="postmark" aria-hidden="true" data-c="links.postmark">YUKIRIN.MOE<br>—<br>ROUTES / 2026</span><div class="micro-label" data-c="links.microLabel">LINKS / ROUTE MAP</div><h2 data-c="links.heading">Where to find me.</h2><p data-c="links.sideText">博客、代码、朋友和一些我自己做的小工具。</p><div class="route-note"><strong data-c="links.routeTitle">STATUS CHANNEL</strong><span data-c="links.routeText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</span></div></div>
           <div class="link-wall">
             <a class="route-tile" href="https://vanilla-chan.cn/blog/" target="_blank" rel="noopener"><b>ROUTE / 01</b><h3>Blog</h3><p>journal & technical notes ↗</p></a>
             <a class="route-tile" href="https://www.cnblogs.com/Vanilla-chan" target="_blank" rel="noopener"><b>ROUTE / 02</b><h3>CNBlog</h3><p>another writing shelf ↗</p></a>
@@ -445,11 +447,12 @@
             <a class="route-tile" href="https://vanilla-chan.cn/blog/about/" target="_blank" rel="noopener"><b>ROUTE / 06</b><h3>About Me</h3><p>a longer introduction ↗</p></a>
           </div>
         </div>
-        <div class="page-footer"><button type="button" data-prev>↑ NOTES</button><span>VANILLA / LINKS & ROUTES</span><button type="button" data-home>BACK TO TOP ↑</button></div>
+        <div class="page-footer"><button type="button" data-prev data-c="links.prevLabel">↑ NOTES</button><span data-c="links.footerLabel">VANILLA / LINKS &amp; ROUTES</span><button type="button" data-home data-c="links.homeLabel">BACK TO TOP ↑</button></div>
       </section>
     </main>
   </div>
 
+  <script src="content.js"></script>
   <script src="site-data.js"></script>
   <script>
     (() => {
@@ -466,6 +469,70 @@
         if (wall) wall.innerHTML = siteLinks.map((item, index) =>
           `<a class="route-tile" href="${item.url}" target="_blank" rel="noopener" style="--route-color:${tileColor(item, index)}"><b>ROUTE / ${pad2(index)}</b><h3>${item.name}</h3><p>${item.desc} ↗</p></a>`).join("");
       }
+
+      // content.js 文案注入：元素上写 data-c="home.motto" 即被对应文案替换（数组值用 <br> 连成多行）。
+      // content.js 缺失或缺字段时保留 HTML 里的兜底文字。
+      const C = window.SITE_CONTENT || {};
+      const contentAt = (path) => path.split(".").reduce((obj, key) => (obj == null ? obj : obj[key]), C);
+      const escapeHtml = (text) => String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      // 迷你 Markdown：## 小标题 / - 列表 / --- 打孔分隔线 / 空行分段，
+      // 行内 ==黄荧光笔== %%粉荧光笔%% **加粗** *斜体* [链接](url)
+      const renderInline = (text) => escapeHtml(text)
+        .replace(/==(.+?)==/g, '<span class="hl-marker">$1</span>')
+        .replace(/%%(.+?)%%/g, '<span class="hl-marker-pink">$1</span>')
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      const renderMarkdown = (markdown) => {
+        const blocks = [];
+        let paragraph = [];
+        let list = null;
+        const flushParagraph = () => { if (paragraph.length) { blocks.push(`<p>${paragraph.map(renderInline).join(" ")}</p>`); paragraph = []; } };
+        const flushList = () => { if (list) { blocks.push(`<ul>${list.map((item) => `<li>${renderInline(item)}</li>`).join("")}</ul>`); list = null; } };
+        markdown.split("\n").forEach((rawLine) => {
+          const line = rawLine.trim();
+          if (!line) { flushParagraph(); flushList(); return; }
+          if (line === "---") { flushParagraph(); flushList(); blocks.push('<div class="ticket-divider" aria-hidden="true"></div>'); return; }
+          if (line.startsWith("## ")) { flushParagraph(); flushList(); blocks.push(`<h3>${renderInline(line.slice(3))}</h3>`); return; }
+          if (line.startsWith("- ")) { flushParagraph(); (list = list || []).push(line.slice(2)); return; }
+          flushList(); paragraph.push(line);
+        });
+        flushParagraph(); flushList();
+        return blocks.join("");
+      };
+
+      const applyContent = () => {
+        document.querySelectorAll("[data-c]").forEach((node) => {
+          const value = contentAt(node.dataset.c);
+          if (value == null) return;
+          if (Array.isArray(value)) node.innerHTML = value.map(escapeHtml).join("<br>");
+          else node.textContent = value;
+        });
+        const facts = contentAt("home.facts");
+        const factList = document.querySelector(".fact-list");
+        if (Array.isArray(facts) && facts.length && factList) {
+          factList.innerHTML = facts.map((fact) =>
+            `<div class="fact"><dt>${escapeHtml(fact.term)}</dt><dd>${escapeHtml(fact.value)}${fact.sub ? `<small>${escapeHtml(fact.sub)}</small>` : ""}</dd></div>`).join("");
+        }
+        const markdown = contentAt("about.markdown");
+        const aboutBox = document.getElementById("about-content");
+        if (markdown && aboutBox) {
+          aboutBox.innerHTML = renderMarkdown(markdown);
+          const caption = contentAt("about.caption");
+          if (caption) {
+            const node = document.createElement("span");
+            node.className = "about-caption";
+            node.textContent = caption;
+            aboutBox.appendChild(node);
+          }
+        }
+        const lastUpdate = contentAt("home.lastUpdate");
+        if (lastUpdate) document.querySelectorAll("[data-last-update]").forEach((node) => { node.textContent = lastUpdate; });
+        const updateSource = contentAt("home.updateSource");
+        if (updateSource) document.querySelectorAll("[data-update-source]").forEach((node) => { node.textContent = updateSource; });
+      };
+      applyContent();
 
       const stage = document.getElementById("page-scroll");
       const pages = [...document.querySelectorAll(".page")];
@@ -565,7 +632,11 @@
       document.querySelectorAll("[data-prev]").forEach((button) => button.addEventListener("click", () => goTo(current - 1, true)));
       document.querySelectorAll("[data-home]").forEach((button) => button.addEventListener("click", () => goTo(0, true)));
 
-      const defaultStatus = { label: "MAKING THINGS", source: "STATUS / DEFAULT", dot: "#a2bca0" };
+      const defaultStatus = {
+        label: contentAt("rail.statusLabel") || "MAKING THINGS",
+        source: contentAt("rail.statusSource") || "STATUS / DEFAULT",
+        dot: contentAt("rail.statusDot") || "#a2bca0"
+      };
       const renderStatus = (state = defaultStatus) => {
         document.querySelectorAll("[data-status-label]").forEach((node) => { node.textContent = state.label; });
         document.querySelectorAll("[data-status-source]").forEach((node) => { node.textContent = state.source; });
