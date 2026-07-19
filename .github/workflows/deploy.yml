@@ -16,7 +16,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
+          port: 22000  # 部署目标是 xcy (103.117.123.204)，SSH 在 22000
           # 核心脚本逻辑
           script: |
             # 1. 进入项目目录 (请修改为你服务器上的实际路径)
