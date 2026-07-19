@@ -105,10 +105,6 @@
     .rail-tip { margin-top: 34px; color: var(--muted); font: 9px/1.6 var(--mono); }
 
     .page-scroll { height: 100svh; overflow-y: auto; scroll-behavior: smooth; scroll-snap-type: y mandatory; scrollbar-color: var(--coral) transparent; scrollbar-width: thin; }
-    /* 内容比视口高时（竖屏/窄屏）由 JS 加 no-snap：退出整页翻页，退回自然滚动 */
-    .page-scroll.no-snap { scroll-snap-type: none; }
-    /* no-snap 模式下页面会比视口高，给绝对定位的页脚预留空间，避免压住内容 */
-    .page-scroll.no-snap .page { padding-bottom: 96px; }
     .page {
       position: relative;
       min-height: 100svh;
@@ -593,13 +589,29 @@
       const navItems = [...document.querySelectorAll(".site-nav a[data-page]")];
       const pageLinks = [...document.querySelectorAll("a[data-page]")];
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      // 任何一页比视口高就退出 PPT 模式：否则滚轮整页翻动会永远跳过溢出的内容
-      //（竖屏手机 HOME 页底部的链接矩阵就是这样丢的）
-      const pptEnabled = () => !stage.classList.contains("no-snap");
-      const measureSnap = () => {
-        const fits = pages.every((page) => page.offsetHeight <= stage.clientHeight + 2);
-        stage.classList.toggle("no-snap", !fits);
-        if (!fits) { animating = false; }
+      // 适应视口：内容比视口高的页整体等比缩小到刚好放下——任何窗口比例都保持整页翻页。
+      //（「宁愿缩小也不退回普通滚动」；Chrome/Edge/Safari 用 zoom，Firefox 用 transform 等效）
+      const supportsZoom = "zoom" in document.body.style;
+      const fitPages = () => {
+        const stageH = stage.clientHeight;
+        pages.forEach((page) => {
+          page.style.zoom = "";
+          page.style.transform = "";
+          page.style.width = "";
+          page.style.height = "";
+          const natural = page.offsetHeight;
+          if (natural <= stageH + 2) return;
+          // 留 3px 余量吸收 zoom 的取整误差，避免缩放后仍超出几个像素
+          const factor = (stageH - 3) / natural;
+          if (supportsZoom) {
+            page.style.zoom = factor;
+          } else {
+            page.style.width = (100 / factor) + "%";
+            page.style.transform = "scale(" + factor + ")";
+            page.style.transformOrigin = "top left";
+            page.style.height = (natural * factor) + "px";
+          }
+        });
       };
       let current = 0;
       let animating = false;   // 翻页动画进行中，期间滚轮/按键一律吞掉，实现 PPT 式整页翻动
@@ -664,8 +676,6 @@
 
       stage.addEventListener("wheel", (event) => {
         // 全量接管滚轮：不产生任何原生滚动，只按整页翻动
-        // no-snap 模式下完全放行，交给原生滚动
-        if (!pptEnabled()) return;
         event.preventDefault();
         if (animating || performance.now() < cooldownUntil) return;
         wheelAccum += normalizeDelta(event);
@@ -678,7 +688,6 @@
       }, { passive: false });
 
       window.addEventListener("keydown", (event) => {
-        if (!pptEnabled()) return;
         if (["ArrowDown", "PageDown", " "].includes(event.key)) { event.preventDefault(); goTo(current + 1); }
         if (["ArrowUp", "PageUp"].includes(event.key)) { event.preventDefault(); goTo(current - 1); }
         if (event.key === "Home") { event.preventDefault(); goTo(0); }
@@ -697,10 +706,10 @@
       document.querySelectorAll("[data-prev]").forEach((button) => button.addEventListener("click", () => goTo(current - 1, true)));
       document.querySelectorAll("[data-home]").forEach((button) => button.addEventListener("click", () => goTo(0, true)));
 
-      // 初始 + 尺寸变化 + 字体加载完成（字高会变）都重新测量
-      measureSnap();
-      window.addEventListener("resize", measureSnap);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureSnap);
+      // 初始 + 尺寸变化 + 字体加载完成（字高会变）都重新适配
+      fitPages();
+      window.addEventListener("resize", fitPages);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPages);
 
       const defaultStatus = {
         label: contentAt("rail.statusLabel") || "MAKING THINGS",
@@ -784,7 +793,7 @@
             return row;
           });
           list.replaceChildren(...rows);
-          measureSnap(); // RSS 替换后列表高度可能变化，重新判定翻页模式
+          fitPages(); // RSS 替换后列表高度可能变化，重新适配缩放
           const indexLabel = document.querySelector("[data-notes-index]");
           if (indexLabel) indexLabel.textContent = "FEED / LATEST " + String(rows.length).padStart(2, "0");
         })
